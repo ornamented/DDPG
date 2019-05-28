@@ -129,7 +129,10 @@ class PhysicsSim():
 
         self.angular_accels = moments / self.moments_of_inertia
         angles = self.pose[3:] + self.angular_v * self.dt + 0.5 * self.angular_accels * self.angular_accels * self.dt ** 2
-        angles = (angles + 2 * np.pi) % (2 * np.pi)
+        try:
+            angles = (angles + 2 * np.pi) % (2 * np.pi)
+        except RuntimeWarning:
+            print('angles:',angles)
         self.angular_v = self.angular_v + self.angular_accels * self.dt
 
         new_positions = []

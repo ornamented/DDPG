@@ -7,7 +7,7 @@ import math
 # Hyper Parameters
 LAYER1_SIZE = 400
 LAYER2_SIZE = 300
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 1e-5
 TAU = 0.001
 BATCH_SIZE = 64
 
@@ -49,8 +49,8 @@ class ActorNetwork:
         b1 = self.variable([layer1_size],state_dim)
         W2 = self.variable([layer1_size,layer2_size],layer1_size)
         b2 = self.variable([layer2_size],layer1_size)
-        W3 = tf.Variable(tf.random_uniform([layer2_size,action_dim],-3e-3,3e-3))
-        b3 = tf.Variable(tf.random_uniform([action_dim],-3e-3,3e-3))
+        W3 = tf.Variable(tf.random_uniform([layer2_size,action_dim],-3e-4,3e-4))
+        b3 = tf.Variable(tf.random_uniform([action_dim],-3e-4,3e-4))
 
         layer0_bn = self.batch_norm_layer(state_input,training_phase=is_training,scope_bn='batch_norm_0',activation=tf.identity)
         layer1 = tf.matmul(layer0_bn,W1) + b1

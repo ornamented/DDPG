@@ -39,17 +39,26 @@ class Task():
             return dist_reward
 
         def velocity_discount(current,goal,lb,ub,v,ub_v):
-            discount = pow(1 - max(abs(v/ub_v),0.1),1/max(dist_reward(current,goal,lb,ub),0.1))
+            # if 1 - max(abs(v/ub_v),0.1) < 0:
+            #     print('curr_v:',self.sim.v)
+            #     print('curr_pose:',self.sim.pose)
+            #     print('velocity_discount: ',1 - max(abs(v/ub_v),0.1),1/max(dist_reward(current,goal,lb,ub),0.1))
+            #     print('v:',v,'ub_v:',ub_v)
+            discount = pow(max(1 - max(abs(v/ub_v),0.1),0),1/max(dist_reward(current,goal,lb,ub),0.1))
             return discount
 
         def partial_reward(current,goal,lb,ub,v,ub_v):
             partial_reward = 0.
             for i in range(len(goal)):
-                partial_reward += dist_reward(current[i],goal[i],lb[i],ub[i]) * velocity_discount(current[i],goal[i],lb[i],ub[i],v[i],ub_v[i])
+                temp = dist_reward(current[i],goal[i],lb[i],ub[i]) * velocity_discount(current[i],goal[i],lb[i],ub[i],v[i],ub_v[i])
+                # print('i: ',i,'dist_reward: ',dist_reward(current[i],goal[i],lb[i],ub[i]))
+                # print('i: ',i,'velocity_discount: ',velocity_discount(current[i],goal[i],lb[i],ub[i],v[i],ub_v[i]))
+                # print('i: ',i,'reward: ',temp)
+                partial_reward += temp
             return partial_reward
 
         reward = (1 - .3*partial_reward(self.sim.pose[:3],self.target_pos, \
-                self.sim.lower_bounds,self.sim.upper_bounds, self.sim.v[:3],[10,10,50])) \
+                self.sim.lower_bounds,self.sim.upper_bounds, self.sim.v[:3],[50,50,200])) \
                 / self.action_repeat
 
         # reward = 1-.3*(abs(self.sim.pose[:2] - self.target_pos[:2])**2).sum() \
@@ -74,11 +83,11 @@ class Task():
         # Used for hover
         # reward = -(abs(self.sim.pose[2:3] - self.target_pos[2:])).sum()
         
-        def is_equal(x, y, delta=0.0):
-            return abs(x-y) <= delta
+        # def is_equal(x, y, delta=0.0):
+        #     return abs(x-y) <= delta
 
-        if is_equal(self.sim.pose[2:3], self.target_pos[2:], delta=1):
-            reward += 10.0  # bonus reward
+        # if is_equal(self.sim.pose[2:3], self.target_pos[2:], delta=1.):
+        #     reward += 10.0  # bonus reward
 
         # Base reward
         # reward = 1-.3*(abs(self.sim.pose[:3] - self.target_pos[:3])).sum() \

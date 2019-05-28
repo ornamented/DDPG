@@ -44,7 +44,7 @@ def main():
             if done:
                 break
         # Testing:
-        if episode % 10 == 0 and episode > 1:
+        if episode % 10 == 0 and episode > 10:
             total_reward = 0
             total_j = 0
             for i in range(TEST):
