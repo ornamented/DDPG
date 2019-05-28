@@ -26,13 +26,18 @@ class DDPG:
         self.environment = env
         # Randomly initialize actor network and critic network
         # with both their target networks
-        self.state_dim = env.observation_space.shape[0]
-        self.action_dim = env.action_space.shape[0]
+        # self.state_dim = env.observation_space.shape[0]
+        # self.action_dim = env.action_space.shape[0]
+        self.state_dim = env.state_size
+        self.action_dim = env.action_size
+        self.action_bound = (env.action_high - env.action_low)/2
+
+        print('state_dim: ', self.state_dim, 'action_dim: ', self.action_dim, 'action_bound: ', self.action_bound)
 
         self.sess = tf.InteractiveSession()
 
-        self.actor_network = ActorNetwork(self.sess,self.state_dim,self.action_dim)
-        self.critic_network = CriticNetwork(self.sess,self.state_dim,self.action_dim)
+        self.actor_network = ActorNetwork(self.sess,self.state_dim,self.action_dim,self.action_bound)
+        self.critic_network = CriticNetwork(self.sess,self.state_dim,self.action_dim,self.action_bound)
         
         # initialize replay buffer
         self.replay_buffer = ReplayBuffer(REPLAY_BUFFER_SIZE)
@@ -76,6 +81,7 @@ class DDPG:
         # Update the target networks
         self.actor_network.update_target()
         self.critic_network.update_target()
+
 
     def noise_action(self,state):
         # Select action a_t according to the current policy and exploration noise

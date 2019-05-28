@@ -12,11 +12,12 @@ BATCH_SIZE = 64
 
 class ActorNetwork:
 	"""docstring for ActorNetwork"""
-	def __init__(self,sess,state_dim,action_dim):
+	def __init__(self,sess,state_dim,action_dim,action_bound):
 
 		self.sess = sess
 		self.state_dim = state_dim
 		self.action_dim = action_dim
+		self.action_bound = action_bound
 		# create actor network
 		self.state_input,self.action_output,self.net = self.create_network(state_dim,action_dim)
 
@@ -53,7 +54,10 @@ class ActorNetwork:
 		layer2 = tf.nn.relu(tf.matmul(layer1,W2) + b2)
 		action_output = tf.tanh(tf.matmul(layer2,W3) + b3)
 
-		return state_input,action_output,[W1,b1,W2,b2,W3,b3]
+		# Scale output to -action_bound to action_bound
+        scaled_out = tf.multiply(action_output, self.action_bound)
+
+		return state_input,scaled_out,[W1,b1,W2,b2,W3,b3]
 
 	def create_target_network(self,state_dim,action_dim,net):
 		state_input = tf.placeholder("float",[None,state_dim])
@@ -65,7 +69,10 @@ class ActorNetwork:
 		layer2 = tf.nn.relu(tf.matmul(layer1,target_net[2]) + target_net[3])
 		action_output = tf.tanh(tf.matmul(layer2,target_net[4]) + target_net[5])
 
-		return state_input,action_output,target_update,target_net
+		# Scale output to -action_bound to action_bound
+        scaled_out = tf.multiply(action_output, self.action_bound)
+
+		return state_input,scaled_out,target_update,target_net
 
 	def update_target(self):
 		self.sess.run(self.target_update)

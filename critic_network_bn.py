@@ -12,7 +12,7 @@ L2 = 0.01
 
 class CriticNetwork:
 	"""docstring for CriticNetwork"""
-	def __init__(self,sess,state_dim,action_dim):
+	def __init__(self,sess,state_dim,action_dim,action_bound):
 		self.time_step = 0
 		self.sess = sess
 		# create q network
@@ -21,6 +21,8 @@ class CriticNetwork:
 		self.q_value_output,\
 		self.net,\
 		self.is_training = self.create_q_network(state_dim,action_dim)
+
+		self.action_bound = action_bound
 
 		# create target q network (the same structure with q network)
 		self.target_state_input,\
@@ -53,6 +55,8 @@ class CriticNetwork:
 		action_input = tf.placeholder("float",[None,action_dim])
 		is_training = tf.placeholder(tf.bool)
 
+		action_input = tf.multiply(action_input, 1/self.action_bound)
+
 		W1 = self.variable([state_dim,layer1_size],state_dim)
 		b1 = self.variable([layer1_size],state_dim)
 		W2 = self.variable([layer1_size,layer2_size],layer1_size+action_dim)
@@ -73,6 +77,8 @@ class CriticNetwork:
 		state_input = tf.placeholder("float",[None,state_dim])
 		action_input = tf.placeholder("float",[None,action_dim])
 		is_training = tf.placeholder(tf.bool)
+
+		action_input = tf.multiply(action_input, 1/self.action_bound)
 
 		ema = tf.train.ExponentialMovingAverage(decay=1-TAU)
 		target_update = ema.apply(net)
