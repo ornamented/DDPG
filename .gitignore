@@ -8,3 +8,8 @@ agents/results/tf_ddpg/.DS_Store
 agents/data.txt
 dataz.txt
 Quadcopter_Project.html
+successes.txt
+ou_noise.py
+filter_env.py
+quadcopter_test.ipynb
+task_rough.py
