@@ -1,0 +1,10 @@
+
+*.pyc
+*.local
+*.png
+agents/results/.DS_Store
+agents/results/tf_ddpg/.DS_Store
+*.xlsx
+agents/data.txt
+dataz.txt
+Quadcopter_Project.html

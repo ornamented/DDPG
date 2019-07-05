@@ -12,7 +12,7 @@ TEST = 10
 
 def main():
     # env = filter_env.makeFilteredEnv(gym.make(ENV_NAME)) 
-    init_pose = [0., 0., 150., 0., 0., 0.]
+    init_pose = [0., 0., 10., 0., 0., 0.]
     target_pos = [0., 0., 150.]
     init_velocities = [0., 0., 0.]
     env=Task(init_pose = init_pose,target_pos = target_pos,init_velocities=init_velocities,runtime=30.)

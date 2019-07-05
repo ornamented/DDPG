@@ -1,0 +1,99 @@
+scaled dist reward, ^0.8
+epic reward for completion
+penalty for failure
+high reward for getting close
+
+EPISODES = 100000
+TIMESTEPS = 1000
+TEST = 10
+LR_ACTOR = 0.01
+LR_CRITIC = 0.001
+GAMMA = 0.99 # 0.99
+TAU = 0.01 # 0.01
+OU_MU = 0.0
+OU_THETA = 0.015 #0.15
+OU_SIGMA = 0.02 #0.2
+
+INIT_POSE = [0., 0., 10., 0., 0., 0.]
+TARGET_POS = [0., 0., 150.]
+INIT_VELOCITIES = [0., 0., 0.]
+
+successes - 47, 140 episodes
+
+
+scaled dist reward, ^0.8
+epic reward for completion
+penalty for failure
+high reward for getting close
+
+EPISODES = 100000
+TIMESTEPS = 1000
+TEST = 10
+LR_ACTOR = 0.001
+LR_CRITIC = 0.0001
+GAMMA = 0.99 # 0.99
+TAU = 0.1 # 0.01
+OU_MU = 0.0
+OU_THETA = 0.15 #0.15
+OU_SIGMA = 0.2 #0.2
+
+INIT_POSE = [0., 0., 10., 0., 0., 0.]
+TARGET_POS = [0., 0., 150.]
+INIT_VELOCITIES = [0., 0., 0.]
+
+1000 episodes, 109 successes...
+When I ran the exact same thing again it got 0 successes out of 500 episodes... the fu
+
+
+
+
+Longest run
+
+scaled dist reward, ^0.8
+epic reward for completion
+penalty for failure
+high reward for getting close
+
+pose and velocity considered for state space
+
+EPISODES = 100000
+TIMESTEPS = 1000
+TEST = 10
+LR_ACTOR = 0.001
+LR_CRITIC = 0.001
+GAMMA = 0.99 # 0.99
+TAU = 0.001 # 0.01
+OU_MU = 0.0
+OU_THETA = 0.015 #0.15
+OU_SIGMA = 0.2 #0.2
+
+INIT_POSE = [0., 0., 10., 0., 0., 0.]
+TARGET_POS = [0., 0., 150.]
+INIT_VELOCITIES = [0., 0., 0.]
+
+3626 episodes, 158 successes...
+
+
+
+
+BEST ONE SO FAR
+
+EPISODES = 100000
+TIMESTEPS = 1000
+TEST = 10
+LR_ACTOR = 0.0001
+LR_CRITIC = 0.0001
+GAMMA = 0.9 # 0.99
+TAU = 0.01 # 0.01
+OU_MU = 0.0
+OU_THETA = 0.075 #0.15
+OU_SIGMA = 0.1 #0.2
+
+INIT_POSE = [0., 0., 10., 0., 0., 0.]
+TARGET_POS = [0., 0., 50.]
+INIT_VELOCITIES = [0., 0., 0.]
+
+Took out bonus reward for being close enough
+Added batch normalization layers to both actor and critic NNs
+
+102 Successes 106 episodes!
